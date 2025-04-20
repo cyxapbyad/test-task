@@ -1,0 +1,48 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./app:/var/www/html
+      - ./nginx/log:/var/log/nginx
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - appnet
+    restart: always
+
+  php:
+    image: php:8.2-fpm
+    container_name: php
+    volumes:
+      - ./app:/var/www/html
+    networks:
+      - appnet
+    restart: always
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - appnet
+    restart: always
+
+volumes:
+  mysql_data:
+
+networks:
+  appnet:
+    driver: bridge
