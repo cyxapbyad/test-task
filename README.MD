@@ -82,8 +82,8 @@ sudo ufw status verbose
 2. Склонируйте репозиторий:
 
 ```bash
-git clone <URL репозитория>
-cd <имя папки>
+git clone https://github.com/cyxapbyad/test-task.git
+cd ./test-task
 ```
 
 3. Запустите контейнеры:
